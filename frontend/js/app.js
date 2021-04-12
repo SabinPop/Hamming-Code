@@ -5,9 +5,6 @@ var app = new Vue({
     status: "",
     numberOfDataBits: 0,
   },
-  created: function () {
-    this.initDataBits(get_N());
-  },
   methods: {
     addBits({ target }) {
       const input = {
@@ -25,13 +22,6 @@ var app = new Vue({
       return `${this.dataBits}`;
     },
 
-    initDataBits: function () {
-      this.dataBits = [];
-      for (var i = 0; i < this.numberOfDataBits; i++) {
-        var bit = { data: null };
-        this.dataBits.push(bit);
-      }
-    },
     send: function () {
       if (this.validate(this.dataBits) === true) {
         var encodedMessage = this.encode(this.dataBits);

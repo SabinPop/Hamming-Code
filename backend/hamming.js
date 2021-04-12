@@ -9,9 +9,9 @@ function decode(bits) {
     r = r + 1;
   }
   var i = 0,
-    k = 0,
-    j = 0,
-    t = 0;
+  k = 0,
+  j = 0,
+  t = 0;
   var z = [];
   for (i = 0; i < nr; i++) {
     if (i == Math.pow(2, t) - 1) {

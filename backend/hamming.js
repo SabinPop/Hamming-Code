@@ -1,14 +1,53 @@
 function decode(bits) {
   parity = function (number) {
     return number % 2;
+    
   };
-  var z8 = parity(bits[7] + bits[8] + bits[9] + bits[10] + bits[11])
-  var z4 = parity(bits[3] + bits[4] + bits[5] + bits[6] + bits[11]);
-  var z2 = parity(bits[1] + bits[2] + bits[5] + bits[6] + bits[9] + bits[10]);
-  var z1 = parity(bits[0] + bits[2] + bits[4] + bits[6] + bits[8] + bits[10]);
+  console.log("Bitii: ",bits)
+  var r=1;
+  var nr=bits.length;
+  while(Math.pow(2,r) < parseInt(nr)+1)
+      {
+         r=r+1;
+       
+      }
+      var i=0,k=0,j=0,t=0;
+      var z=[];
 
 
-  var errorPosition = z1 * 1 + z2 * 2 + z4 * 4 + z8 * 8;
+
+
+
+      for(i=0;i<nr;i++)
+      {
+        if(i == Math.pow(2,t)-1)
+        {z[t]=0;
+          for(j=i;j<nr;j=j+2*(i+1))
+            {
+              
+              
+                for(k=j;k<j+i+1;k++)
+                {
+                  if(k<nr)
+                  {z[t]=parity(z[t]+parseInt(bits[k]));
+                    
+                  }
+                }
+              
+            }
+            t++;
+        }
+      }
+        console.log("z = ",z);
+
+      
+
+  var errorPosition = 0;
+  for(i=0;i<r;i++)
+  {
+  errorPosition=errorPosition+ parseInt(z[i]) * Math.pow(2,i);
+  console.log("err = ",errorPosition);
+  }
   var errorDetected = false;
 
   if (errorPosition != 0) errorDetected = true;

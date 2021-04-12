@@ -7,14 +7,16 @@
   <body>
     <div id="hamming-encoder">
       <h1>
-        Hamming code for
-        <select v-on:change="initDataBits()" v-model="numberOfDataBits">
-          <option value="4">4</option>
-          <option value="8">8</option>
-        </select>
-        bits
+        Hamming code
       </h1>
+      <h2>
+        <input type="text" @change="addBits" ref="numberOfDataBits" value="10" width="100px">
+        <div v-model="valN">{{ getN() }}</div>
+        <div v-model="valBits">{{ getBits() }}</div>
+      </h2>
+      
       <br />
+      
       <ul v-for="(bit,index) in dataBits">
         <li>
           <input

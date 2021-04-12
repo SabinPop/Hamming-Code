@@ -3,12 +3,28 @@ var app = new Vue({
   data: {
     dataBits: [],
     status: "",
-    numberOfDataBits: 4,
+    numberOfDataBits: 0,
   },
   created: function () {
-    this.initDataBits(4);
+    this.initDataBits(get_n());
   },
   methods: {
+    addBits({ target }) {
+      const input = {
+        target: {
+          value: target.value,
+        },
+      };
+      this.dataBits = input.target.value;
+      this.numberOfDataBits = this.dataBits.length;
+    },
+    getN() {
+      return `${this.numberOfDataBits}`;
+    },
+    getBits() {
+      return `${this.dataBits}`;
+    },
+
     initDataBits: function () {
       this.dataBits = [];
       for (var i = 0; i < this.numberOfDataBits; i++) {
@@ -28,51 +44,40 @@ var app = new Vue({
     },
 
     encode: function (bits) {
-      // This function must be changed to allow any
-      // number of data bits
-      // Right now it only works for 4 data bits
-      console.log("Bits", bits);
-      var c8 = this.parity(
-        parseInt(bits[4].data) + 
-        parseInt(bits[5].data) + 
-        parseInt(bits[6].data) + 
-        parseInt(bits[7].data)
-      );
-      var c4 = this.parity(
-        parseInt(bits[1].data) + 
-        parseInt(bits[2].data) + 
-        parseInt(bits[3].data) + 
-        parseInt(bits[7].data)
-      );
-      var c2 = this.parity(
-        parseInt(bits[0].data) + 
-        parseInt(bits[2].data) + 
-        parseInt(bits[3].data) + 
-        parseInt(bits[5].data) + 
-        parseInt(bits[6].data)
-      );
-      var c1 = this.parity(
-        parseInt(bits[0].data) + 
-        parseInt(bits[1].data) + 
-        parseInt(bits[3].data) +
-        parseInt(bits[4].data) + 
-        parseInt(bits[6].data)
-      );
+      var r = 1;
+      var nr = parseInt(this.numberOfDataBits);
 
-      return [
-        c1,
-        c2,
-        parseInt(bits[0].data),
-        c4,
-        parseInt(bits[1].data),
-        parseInt(bits[2].data),
-        parseInt(bits[3].data),
-        c8,
-        parseInt(bits[4].data),
-        parseInt(bits[5].data),
-        parseInt(bits[6].data),
-        parseInt(bits[7].data)
-      ];
+      while (Math.pow(2, r) < parseInt(nr) + parseInt(r) + 1) {
+        r = r + 1;
+      }
+      var code = [];
+      var i = 0,
+        k = 0;
+      for (i = 0; i < r; i++) {
+        code[Math.pow(2, i) - 1] = -1;
+      }
+      for (i = 0; i < nr + r; i++) {
+        if (code[i] != -1) {
+          code[i] = parseInt(bits[k].data);
+          k++;
+        }
+      }
+      console.log("Hamming : ", code);
+      var j = 0;
+      k = 0;
+      for (i = 0; i < nr + r; i++) {
+        if (code[i] == -1) {
+          code[i] = 0;
+          for (j = i; j < nr + r; j = j + 2 * (i + 1)) {
+            for (k = j; k < j + i + 1; k++) {
+              if (k != i && k < nr + r) {
+                code[i] = this.parity(parseInt(code[i]) + parseInt(code[k]));
+              }
+            }
+          }
+        }
+      }
+      return code;
     },
     parity: function (number) {
       return number % 2;

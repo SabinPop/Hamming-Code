@@ -6,7 +6,7 @@ var app = new Vue({
     numberOfDataBits: 0,
   },
   created: function () {
-    this.initDataBits(get_n());
+    this.initDataBits(get_N());
   },
   methods: {
     addBits({ target }) {
@@ -46,7 +46,6 @@ var app = new Vue({
     encode: function (bits) {
       var r = 1;
       var nr = parseInt(this.numberOfDataBits);
-
       while (Math.pow(2, r) < parseInt(nr) + parseInt(r) + 1) {
         r = r + 1;
       }

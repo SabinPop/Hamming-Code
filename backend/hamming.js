@@ -1,52 +1,35 @@
 function decode(bits) {
   parity = function (number) {
     return number % 2;
-    
   };
-  console.log("Bitii: ",bits)
-  var r=1;
-  var nr=bits.length;
-  while(Math.pow(2,r) < parseInt(nr)+1)
-      {
-         r=r+1;
-       
-      }
-      var i=0,k=0,j=0,t=0;
-      var z=[];
-
-
-
-
-
-      for(i=0;i<nr;i++)
-      {
-        if(i == Math.pow(2,t)-1)
-        {z[t]=0;
-          for(j=i;j<nr;j=j+2*(i+1))
-            {
-              
-              
-                for(k=j;k<j+i+1;k++)
-                {
-                  if(k<nr)
-                  {z[t]=parity(z[t]+parseInt(bits[k]));
-                    
-                  }
-                }
-              
-            }
-            t++;
+  console.log("Bitii: ", bits);
+  var r = 1;
+  var nr = bits.length;
+  while (Math.pow(2, r) < parseInt(nr) + 1) {
+    r = r + 1;
+  }
+  var i = 0,
+    k = 0,
+    j = 0,
+    t = 0;
+  var z = [];
+  for (i = 0; i < nr; i++) {
+    if (i == Math.pow(2, t) - 1) {
+      z[t] = 0;
+      for (j = i; j < nr; j = j + 2 * (i + 1)) {
+        for (k = j; k < j + i + 1; k++) {
+          if (k < nr) {
+            z[t] = parity(z[t] + parseInt(bits[k]));
+          }
         }
       }
-        console.log("z = ",z);
-
-      
-
-  var errorPosition = 0;
-  for(i=0;i<r;i++)
-  {
-  errorPosition=errorPosition+ parseInt(z[i]) * Math.pow(2,i);
-  console.log("err = ",errorPosition);
+      t++;
+    }
+  }
+  var errorPosition = 2;
+  for (i = 0; i < r; i++) {
+    errorPosition = errorPosition + parseInt(z[i]) * Math.pow(2, i);
+    console.log("err = ", errorPosition);
   }
   var errorDetected = false;
 

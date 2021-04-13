@@ -2,7 +2,6 @@ function decode(bits) {
   parity = function (number) {
     return number % 2;
   };
-  console.log("Bitii: ", bits);
   var r = 1;
   var nr = bits.length;
   while (Math.pow(2, r) < parseInt(nr) + 1) {
@@ -26,10 +25,9 @@ function decode(bits) {
       t++;
     }
   }
-  var errorPosition = 2;
+  var errorPosition = 0;
   for (i = 0; i < r; i++) {
     errorPosition = errorPosition + parseInt(z[i]) * Math.pow(2, i);
-    console.log("err = ", errorPosition);
   }
   var errorDetected = false;
 

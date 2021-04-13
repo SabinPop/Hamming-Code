@@ -8,16 +8,19 @@ select {
 
 ul {
   list-style: none;
-  display: inline -block;
+  display: inline-block;
   margin: 0px;
   margin-bottom: 20px;
   margin-top: 0px;
   padding: 0px;
   padding-right: 10px;
 }
-
+.inp{
+  font-size: 10;
+  width: 30px;
+}
 input {
-  font-size: 20px;
+  font-size: 16px;
   padding: 10px;
   text-align: center;
 }

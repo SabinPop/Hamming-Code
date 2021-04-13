@@ -10,26 +10,26 @@
         Hamming code
       </h1>
       <h2>
-        <input type="text" @change="addBits" ref="numberOfDataBits" value="10" width="100px">
-        <div >{{ getN() }}</div>
-        <div >{{ getBits() }}</div>
+        <input type="number" @input="addBits" value="10" >
+        <div>n={{ numberOfDataBits }}</div>
+        <div>bits[n]={{ dataBits }}</div>
       </h2>
       
       <br />
       
       <ul v-for="(bit,index) in dataBits">
         <li>
-          <input
+          <input class="inp"
             maxlength="1"
-            :placeholder="'D'+index"
-            v-model="bit.data"
-            v-bind:class="[validateBit(bit.data) ? 'valid-input' : 'invalid-input']"
+            :placeholder="bit"
+            :value="bit"
+            v-bind:class="[validateBit(bit) ? 'valid-input' : 'invalid-input']"
           />
         </li>
       </ul>
       <br />
       Data bits: <code>{{dataBits}}</code> <br />
-      <button v-on:click="send()">Send</button>
+      <button @click="send">Send</button>
       <p>{{ status }}</p>
     </div>
     <script type="text/javascript" src="libs/vue.js"></script>
